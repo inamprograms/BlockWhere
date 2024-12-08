@@ -1,110 +1,70 @@
-// Script for handling chat interactions
 document.getElementById("send-button").addEventListener("click", async function () {
     const userInput = document.getElementById("user-input").value.trim();
-    const contentType = document.getElementById("search-options").value; // Get selected content type
+    const contentType = document.getElementById("search-options").value;
     const chatLog = document.getElementById("chat-log");
 
     if (userInput) {
-        // Append user message
-        const userMessage = document.createElement("div");
-        userMessage.className = "message user-message";
-        userMessage.innerText = userInput;
-        chatLog.appendChild(userMessage);
+        appendMessage(chatLog, userInput, "user-message");
 
-        // Clear input
-        document.getElementById("user-input").value = "";
+        document.getElementById("user-input").value = ""; // Clear input
+        chatLog.scrollTop = chatLog.scrollHeight; // Scroll down
 
-        // Scroll to the bottom
-        chatLog.scrollTop = chatLog.scrollHeight;
-
-        // Call the appropriate API
         try {
             const botResponse = await callAPI(userInput, contentType);
-            
-            // Handle API response and append bot message
-            const botMessage = document.createElement("div");
-            botMessage.className = "message bot-message";
-
-            if (contentType === "text") {
-                botMessage.innerText = botResponse.response; // Assuming API returns { response: "text" }
-            } else if (contentType === "image") {
-                const img = document.createElement("img");
-                img.src = botResponse.response; // Assuming API returns { response: "image_url" }
-                img.alt = "Generated Image";
-                botMessage.appendChild(img);
-            } else if (contentType === "video") {
-                const video = document.createElement("video");
-                video.src = botResponse.response; // Assuming API returns { response: "video_url" }
-                video.controls = true;
-                botMessage.appendChild(video);
-            } else if (contentType === "all") {
-                botMessage.innerText = JSON.stringify(botResponse, null, 2);
-            } else {
-                botMessage.innerText = "Unsupported content type.";
-            }
-
-            chatLog.appendChild(botMessage);
+            appendBotResponse(chatLog, botResponse, contentType);
         } catch (error) {
-            console.error("Error calling API:", error);
-
-            const errorMessage = document.createElement("div");
-            errorMessage.className = "message bot-message";
-            errorMessage.innerText = "Sorry, something went wrong. Please try again.";
-            chatLog.appendChild(errorMessage);
+            appendMessage(chatLog, "Error: Try again later.", "bot-message");
         }
     }
 });
 
-// Function to call the backend API
-async function callAPI(query, contentType) {
-    let apiUrl;
-
-    // Select API endpoint based on contentType
-    switch (contentType) {
-        case "text":
-            apiUrl = "http://192.168.100.9:5000/api/generate";
-            break;
-        case "image":
-            apiUrl = "http://192.168.100.9:5000/api/meme";
-            break;
-        case "video":
-            apiUrl = "http://192.168.100.9:5000/api/video";
-            break;
-        case "all":
-            apiUrl = "http://192.168.100.9:5000/api/generate_all";
-            break;
-        default:
-            throw new Error("Invalid content type selected");
+document.getElementById("social-post-button").addEventListener("click", function () {
+    const userMessage = document.getElementById("user-input").value.trim();
+    if (userMessage) {
+        const postContent = `🌟 Crypto Update 🌟\n\n"${userMessage}"\n\n#CryptoChat #Blockchain`;
+        alert(`Social Post: ${postContent}`);
+        navigator.clipboard.writeText(postContent);
+    } else {
+        alert("Type a message to create a social post!");
     }
+});
 
-    const requestData = {
-        query: query,
-        content_type: contentType
-    };
-
-    const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(requestData)
-    });
-
-    if (!response.ok) {
-        throw new Error(`API call failed with status: ${response.status}`);
-    }
-
-    return response.json(); // Assuming the API returns JSON
+function appendMessage(chatLog, message, className) {
+    const newMessage = document.createElement("div");
+    newMessage.className = `message ${className}`;
+    newMessage.innerText = message;
+    chatLog.appendChild(newMessage);
 }
 
-// Crypto Tip of the Day
-const tips = [
-    "Diversify your crypto investments to minimize risks!",
-    "Always store your private keys securely.",
-    "Research thoroughly before investing in any cryptocurrency.",
-    "Use a hardware wallet for long-term storage.",
-    "Keep an eye on market trends and news for informed decisions."
-];
+function appendBotResponse(chatLog, botResponse, contentType) {
+    const botMessage = document.createElement("div");
+    botMessage.className = "message bot-message";
 
-const randomTip = tips[Math.floor(Math.random() * tips.length)];
-document.getElementById("tip-content").innerText = randomTip;
+    if (contentType === "text") {
+        botMessage.innerText = botResponse.response;
+    } else if (contentType === "image") {
+        const img = document.createElement("img");
+        img.src = botResponse.response;
+        img.alt = "Generated Image";
+        botMessage.appendChild(img);
+    } else if (contentType === "video") {
+        const video = document.createElement("video");
+        video.src = botResponse.response;
+        video.controls = true;
+        botMessage.appendChild(video);
+    }
+    chatLog.appendChild(botMessage);
+}
+
+async function callAPI(query, contentType) {
+    const apiUrl = `http://192.168.100.9:5000/api/${contentType}`;
+    const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, content_type: contentType })
+    });
+    return response.json();
+}
+
+const tips = ["Diversify investments!", "Secure private keys!", "Use a hardware wallet!", "Track market trends!"];
+document.getElementById("tip-content").innerText = tips[Math.floor(Math.random() * tips.length)];
