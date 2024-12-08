@@ -1,5 +1,11 @@
 Flask
 Flask-Cors
 python-dotenv
-openai==1.16.2
+openai
 vectara==0.0.1
+crewai
+langchain_groq
+crewai_tools
+python-dotenv
+pandas
+ipython
