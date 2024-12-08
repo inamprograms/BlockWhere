@@ -1,0 +1,8 @@
+fetch('http://localhost:5000/api/get-response', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: "What is cryptocurrency?" })
+})
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
