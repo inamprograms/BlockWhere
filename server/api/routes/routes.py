@@ -6,19 +6,25 @@ def user_query():
     data = request.get_json()
     if not data or 'query' not in data:
         return jsonify({'error': 'Query is required'}), 400
-
     query = data['query']
-    
-    # Generate response
-    response_text = f'You asked: "{query}"'
-    
-    # Replace this logic with actual image generation or URL fetching
-    image_url = generate_image_url(query)
+    return generate_response(query)
+# def user_query():
+#     data = request.get_json()
+#     if not data or 'query' not in data:
+#         return jsonify({'error': 'Query is required'}), 400
 
-    return jsonify({
-        'text': response_text,
-        'image': image_url
-    })
+#     query = data['query']
+    
+#     # Generate response
+#     response_text = f'You asked: "{query}"'
+    
+#     # Replace this logic with actual image generation or URL fetching
+#     image_url = generate_image_url(query)
+
+#     return jsonify({
+#         'text': response_text,
+#         'image': image_url
+#     })
 
 def generate_image_url(query):
     """
