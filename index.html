@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Bootstrap for optional styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="header">
+            <h1>Crypto ChatBot</h1>
+        </div>
+        <div class="chat-interface">
+            <div class="crypto-ticker">
+                <marquee>BTC: $43,000 | ETH: $3,200 | LTC: $150</marquee>
+            </div>
+            <div class="chat-window">
+                <div id="chat-log">
+                    <!-- Chat messages will appear here -->
+                </div>
+            </div>
+            <div class="user-input">
+                <!-- Logo and Project Name -->
+                <div class="logo-container">
+                    <img src="images/logo.jpg" alt="Logo" class="logo">
+                    <h2>BlockWhere Technologies</h2>
+                </div>
+
+                <!-- Large Search Box -->
+                <div class="search-box">
+                    <input type="text" id="user-input" placeholder="Share your thought..." class="form-control large-input">
+                    <input type="file" id="file-upload" class="form-control file-input">
+                </div>
+
+                <!-- Options Dropdown and Send Button -->
+                <div class="controls">
+                    <select id="search-options" class="form-select">
+                        <option value="text">Text Explanation</option>
+                        <option value="image">Image Response</option>
+                        <option value="video">Video Explanation</option>
+                        <option value="meme">Meme/Entertaining Response</option>
+                        <option value="all">All of the Above</option>
+                    </select>
+                    <button id="send-button" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+            <div class="quick-replies">
+                <button class="btn btn-secondary">What is Crypto?</button>
+                <button class="btn btn-secondary">Crypto Trends</button>
+                <button class="btn btn-secondary">Crypto Tips</button>
+            </div>
+        </div>
+        <div class="daily-tip">
+            <h4>Crypto Tip of the Day</h4>
+            <p id="tip-content">Loading...</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
