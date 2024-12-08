@@ -1,37 +1,70 @@
-// Script for handling chat interactions
-document.getElementById("send-button").addEventListener("click", function () {
+document.getElementById("send-button").addEventListener("click", async function () {
     const userInput = document.getElementById("user-input").value.trim();
+    const contentType = document.getElementById("search-options").value;
     const chatLog = document.getElementById("chat-log");
 
     if (userInput) {
-        // Append user message
-        const userMessage = document.createElement("div");
-        userMessage.className = "message user-message";
-        userMessage.innerText = userInput;
-        chatLog.appendChild(userMessage);
+        appendMessage(chatLog, userInput, "user-message");
 
-        // Clear input
-        document.getElementById("user-input").value = "";
+        document.getElementById("user-input").value = ""; // Clear input
+        chatLog.scrollTop = chatLog.scrollHeight; // Scroll down
 
-        // Scroll to the bottom
-        chatLog.scrollTop = chatLog.scrollHeight;
-
-        // Add bot response (placeholder)
-        const botMessage = document.createElement("div");
-        botMessage.className = "message bot-message";
-        botMessage.innerText = "This is a bot response.";
-        chatLog.appendChild(botMessage);
+        try {
+            const botResponse = await callAPI(userInput, contentType);
+            appendBotResponse(chatLog, botResponse, contentType);
+        } catch (error) {
+            appendMessage(chatLog, "Error: Try again later.", "bot-message");
+        }
     }
 });
 
-// Crypto Tip of the Day
-const tips = [
-    "Diversify your crypto investments to minimize risks!",
-    "Always store your private keys securely.",
-    "Research thoroughly before investing in any cryptocurrency.",
-    "Use a hardware wallet for long-term storage.",
-    "Keep an eye on market trends and news for informed decisions."
-];
+document.getElementById("social-post-button").addEventListener("click", function () {
+    const userMessage = document.getElementById("user-input").value.trim();
+    if (userMessage) {
+        const postContent = `🌟 Crypto Update 🌟\n\n"${userMessage}"\n\n#CryptoChat #Blockchain`;
+        alert(`Social Post: ${postContent}`);
+        navigator.clipboard.writeText(postContent);
+    } else {
+        alert("Type a message to create a social post!");
+    }
+});
 
-const randomTip = tips[Math.floor(Math.random() * tips.length)];
-document.getElementById("tip-content").innerText = randomTip;
+function appendMessage(chatLog, message, className) {
+    const newMessage = document.createElement("div");
+    newMessage.className = `message ${className}`;
+    newMessage.innerText = message;
+    chatLog.appendChild(newMessage);
+}
+
+function appendBotResponse(chatLog, botResponse, contentType) {
+    const botMessage = document.createElement("div");
+    botMessage.className = "message bot-message";
+
+    if (contentType === "text") {
+        botMessage.innerText = botResponse.response;
+    } else if (contentType === "image") {
+        const img = document.createElement("img");
+        img.src = botResponse.response;
+        img.alt = "Generated Image";
+        botMessage.appendChild(img);
+    } else if (contentType === "video") {
+        const video = document.createElement("video");
+        video.src = botResponse.response;
+        video.controls = true;
+        botMessage.appendChild(video);
+    }
+    chatLog.appendChild(botMessage);
+}
+
+async function callAPI(query, contentType) {
+    const apiUrl = `http://192.168.100.9:5000/api/${contentType}`;
+    const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, content_type: contentType })
+    });
+    return response.json();
+}
+
+const tips = ["Diversify investments!", "Secure private keys!", "Use a hardware wallet!", "Track market trends!"];
+document.getElementById("tip-content").innerText = tips[Math.floor(Math.random() * tips.length)];
