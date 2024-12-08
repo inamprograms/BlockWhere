@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('images/for_background.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: white;
+}
+
+.chatbot-container {
+    width: 500px;
+    height: 750px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.header {
+    padding: 15px;
+    background-color: #1a1a2e;
+    text-align: center;
+}
+
+.crypto-ticker {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.crypto-ticker marquee {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.chat-interface {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chat-window {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    border-bottom: 1px solid #333;
+}
+
+#chat-log {
+    height: 100%;
+}
+
+.user-input {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background-color: #333;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo-container img {
+    width: 80px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.logo-container h2 {
+    margin: 10px 0 0;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.search-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.large-input {
+    height: 60px;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.file-input {
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+#send-button {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#send-button:hover {
+    background-color: #218838;
+}
+
+.quick-replies {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.quick-replies button {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.quick-replies button:hover {
+    background-color: #444;
+    color: white;
+}
+
+.daily-tip {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.daily-tip h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
