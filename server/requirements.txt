@@ -1,3 +1,5 @@
 Flask
 Flask-Cors
 python-dotenv
+openai==1.16.2
+vectara==0.0.1
