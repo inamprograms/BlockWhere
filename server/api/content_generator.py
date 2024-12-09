@@ -1,5 +1,9 @@
 from agents.news_agents import crew
 from flask import jsonify
+import os, requests
+from PIL import Image
+from dotenv import load_dotenv
+load_dotenv()
 
 def generate_content(content_type, query, platform_type):
    
@@ -59,12 +63,12 @@ def generate_image(query):
             print(f"Image URL: {image_url}")  # Debugging: print the image URL
 
             # Fetch the image from the URL
-            image_response = requests.get(image_url)
-            image = Image.open(BytesIO(image_response.content))  # Open the image
+            # image_response = requests.get(image_url)
+            # image = Image.open(BytesIO(image_response.content))  # Open the image
 
             # Optionally, save or display the image
-            image.save("generated_image.png")
-            return image
+            # image.save("generated_image.png")
+            return image_url
         else:
             print(f"Error: {response.status_code} - {response.text}")  # Debugging: print the error
             return {"error": f"Error generating image: {response.status_code} - {response.text}"}
@@ -72,17 +76,17 @@ def generate_image(query):
         print(f"An error occurred: {str(e)}")  # Debugging: print exception details
         return {"error": f"An error occurred: {str(e)}"}
 
-# Get user input for the query
-user_query = input("Enter a description for the image you want to generate: ")
+# # Get user input for the query
+# user_query = input("Enter a description for the image you want to generate: ")
 
-# Generate the image
-generated_image = generate_image(user_query)
+# # Generate the image
+# generated_image = generate_image(user_query)
 
-# Check if the result is an image or an error dictionary
-if isinstance(generated_image, Image.Image):
-    # Display the generated image
-    print("Image generated successfully! Displaying it now...")
-    generated_image.show()
-else:
-    # Print the error message
-    print("Failed to generate image:", generated_image)
+# # Check if the result is an image or an error dictionary
+# if isinstance(generated_image, Image.Image):
+#     # Display the generated image
+#     print("Image generated successfully! Displaying it now...")
+#     generated_image.show()
+# else:
+#     # Print the error message
+#     print("Failed to generate image:", generated_image)

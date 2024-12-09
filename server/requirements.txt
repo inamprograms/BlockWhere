@@ -10,3 +10,5 @@ ipython
 gunicorn
 crewai==0.36.1
 crewai_tools==0.4.8
+requests
+pillow
