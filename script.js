@@ -18,15 +18,18 @@ document.getElementById("send-button").addEventListener("click", async function 
     }
 });
 
-document.getElementById("social-post-button").addEventListener("click", function () {
-    const userMessage = document.getElementById("user-input").value.trim();
-    if (userMessage) {
-        const postContent = `🌟 Crypto Update 🌟\n\n"${userMessage}"\n\n#CryptoChat #Blockchain`;
-        alert(`Social Post: ${postContent}`);
-        navigator.clipboard.writeText(postContent);
-    } else {
-        alert("Type a message to create a social post!");
-    }
+["facebook-post", "linkedin-post", "x-post", "instagram-post"].forEach((id) => {
+    document.getElementById(id).addEventListener("click", function () {
+        const userMessage = document.getElementById("user-input").value.trim();
+        if (userMessage) {
+            const platform = id.split("-")[0].toUpperCase();
+            const postContent = `🌟 ${platform} Post 🌟\n\n"${userMessage}"\n\n#CryptoChat #Blockchain`;
+            alert(`${platform} Post: ${postContent}`);
+            navigator.clipboard.writeText(postContent);
+        } else {
+            alert("Type a message to create a social media post!");
+        }
+    });
 });
 
 function appendMessage(chatLog, message, className) {
@@ -47,11 +50,6 @@ function appendBotResponse(chatLog, botResponse, contentType) {
         img.src = botResponse.response;
         img.alt = "Generated Image";
         botMessage.appendChild(img);
-    } else if (contentType === "video") {
-        const video = document.createElement("video");
-        video.src = botResponse.response;
-        video.controls = true;
-        botMessage.appendChild(video);
     }
     chatLog.appendChild(botMessage);
 }
