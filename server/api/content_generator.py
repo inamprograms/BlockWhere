@@ -11,7 +11,13 @@ def generate_content(content_type, query, platform_type):
             return jsonify({"error": str(e)}), 500
         
     elif content_type == "image":
-        return {"type": "image", "content": f"Generated image for query: {query}"}
+        # Call the `generate_image` function and return the result
+        image_result = generate_image(query)
+        if isinstance(image_result, str):  # If a valid Base64 string
+            return {"type": "image", "content": f"data:image/png;base64,{image_result}"}
+        else:
+            return jsonify(image_result), 500
+
     elif content_type == "video":
         return {"type": "video", "content": f"Generated video for query: {query}"}
     elif content_type == "meme":
@@ -28,104 +34,55 @@ def generate_content(content_type, query, platform_type):
         }
 
 
+def generate_image(query):
+    api_url = "https://api.openai.com/v1/images/generations"  # OpenAI DALL·E API URL
+    api_key =  os.getenv("OPENAI_API_KEY")
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
 
+    payload = {
+        "prompt": query, 
+        "n": 1,  # Number of images to generate
+        "size": "1024x1024" 
+    }
 
+    try:
+        # Send the request to the OpenAI image generation API
+        response = requests.post(api_url, json=payload, headers=headers)
 
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Get the URL of the generated image from the response
+            image_url = response.json()['data'][0]['url']
+            print(f"Image URL: {image_url}")  # Debugging: print the image URL
 
+            # Fetch the image from the URL
+            image_response = requests.get(image_url)
+            image = Image.open(BytesIO(image_response.content))  # Open the image
 
+            # Optionally, save or display the image
+            image.save("generated_image.png")
+            return image
+        else:
+            print(f"Error: {response.status_code} - {response.text}")  # Debugging: print the error
+            return {"error": f"Error generating image: {response.status_code} - {response.text}"}
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")  # Debugging: print exception details
+        return {"error": f"An error occurred: {str(e)}"}
 
+# Get user input for the query
+user_query = input("Enter a description for the image you want to generate: ")
 
+# Generate the image
+generated_image = generate_image(user_query)
 
-
-
-
-
-
-
-
-
-# # Load OpenAI API key
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# def generate_response(query):
-#     """
-#     Generate text and image responses using OpenAI GPT and DALL-E.
-#     """
-#     # Generate text response
-#     completion = openai.ChatCompletion.create(
-#         model="gpt-4",
-#         messages=[{"role": "user", "content": query}]
-#     )
-#     response_text = completion.choices[0].message.content
-
-#     # Generate image using DALL-E
-#     image_response = openai.Image.create(
-#         prompt=query,
-#         n=1,
-#         size="1024x1024"
-#     )
-#     image_url = image_response['data'][0]['url']
-
-#     return jsonify({'text': response_text, 'image': image_url})
-
-
-
-# user_posts= Blueprit('user_posts', __name__)
-
-# # Load OpenAI API key
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# def generate_response(query):
-#     """
-#     Generate text and image responses using OpenAI GPT and DALL-E.
-#     """
-#     # Generate text response
-#     completion = openai.ChatCompletion.create(
-#         model="gpt-4",
-#         messages=[{"role": "user", "content": query}]
-#     )
-#     response_text = completion.choices[0].message.content
-
-#     # Generate image using DALL-E
-#     image_response = openai.Image.create(
-#         prompt=query,
-#         n=1,
-#         size="256x256"
-#     )
-#     image_url = image_response['data'][0]['url']
-
-#     return jsonify({'text': response_text, 'image': image_url})
-
-
-# def user_query():
-#     data = request.get_json()
-#     if not data or 'query' not in data:
-#         return jsonify({'error': 'Query is required'}), 400
-#     query = data['query']
-#     return generate_response(query)
-# def user_query():
-#     data = request.get_json()
-#     if not data or 'query' not in data:
-#         return jsonify({'error': 'Query is required'}), 400
-
-#     query = data['query']
-    
-#     # Generate response
-#     response_text = f'You asked: "{query}"'
-    
-#     # Replace this logic with actual image generation or URL fetching
-#     image_url = generate_image_url(query)
-
-#     return jsonify({
-#         'text': response_text,
-#         'image': image_url
-#     })
-
-# def generate_image_url(query):
-#     """
-#     Generates a placeholder or a query-based image URL.
-#     """
-#     # Simple mock logic for now
-#     if "AI" in query:
-#         return "https://via.placeholder.com/150?text=AI"
-#     return "https://via.placeholder.com/150?text=Query+Response"
+# Check if the result is an image or an error dictionary
+if isinstance(generated_image, Image.Image):
+    # Display the generated image
+    print("Image generated successfully! Displaying it now...")
+    generated_image.show()
+else:
+    # Print the error message
+    print("Failed to generate image:", generated_image)
