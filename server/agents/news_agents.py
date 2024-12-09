@@ -1,4 +1,4 @@
-from crewai import Agent, Task, Crew
+from crewai import Agent, Task, Crew, Process
 from langchain_groq import ChatGroq
 from crewai_tools import SerperDevTool, tool
 import os
@@ -8,7 +8,7 @@ from IPython.display import Markdown
 
 load_dotenv()
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
-
+SERPER_API_KEY = os.getenv('SERPER_API_KEY')
 llm = ChatGroq(temperature=0, model_name="llama3-70b-8192", api_key=GROQ_API_KEY)
 search_tool = SerperDevTool(api_key=SERPER_API_KEY)
 
@@ -18,8 +18,9 @@ def create_agent(role, goal, backstory):
         role=role,
         goal=goal,
         backstory=backstory,
+        tools=[search_tool],
         allow_delegation=False,
-        verbose=True,
+        verbose=True
     )
     
 news_planner = create_agent(
@@ -74,4 +75,12 @@ edit_news = create_task(
     agent=news_editor,
 )
 
-crew = Crew(agents=[news_planner, news_writer, news_editor], tasks=[plan_news, write_news, edit_news], verbose=2)
+crew = Crew(
+    agents=[news_planner, news_writer, news_editor], 
+    tasks=[plan_news, write_news, edit_news], 
+    verbose=True,
+    process=Process.sequential
+    )
+
+# result = crew.kickoff(inputs={"topic": "What is trading", "platform": "linkedIn"})
+# print(result)

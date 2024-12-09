@@ -3,9 +3,10 @@ Flask-Cors
 python-dotenv
 openai
 vectara==0.0.1
-crewai
-langchain_groq
-crewai_tools
+langchain_groq==0.1.6
 python-dotenv
 pandas
 ipython
+gunicorn
+crewai==0.36.1
+crewai_tools==0.4.8
