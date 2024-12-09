@@ -31,18 +31,13 @@ body {
 }
 
 .crypto-ticker {
-    background: rgba(0, 0, 0, 0.7); /* Optional background for better visibility */
-    color: white; /* Ensures overall white text color */
+    background: rgba(0, 0, 0, 0.7); /* Optional background for visibility */
+    color: white; /* Text color */
     padding: 10px;
     border-radius: 5px;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.crypto-ticker marquee {
-    font-size: 16px;
-    font-weight: bold;
-    color: white; /* Text inside the marquee will be white */
+    margin: 20px auto 0; /* Push it down by 20px from the top */
+    width: 90%; /* Optional: Adjust width if needed */
+    text-align: center; /* Center-align text */
 }
 
 
@@ -97,7 +92,7 @@ body {
     gap: 10px;
 }
 
-#send-button, #social-post-button {
+#send-button, .dropdown-toggle {
     border: none;
     color: white;
     padding: 10px 15px;
@@ -114,12 +109,17 @@ body {
     background-color: #0056b3;
 }
 
-#social-post-button {
-    background-color: #28a745;
+.dropdown-menu {
+    background-color: #333;
+    color: white;
 }
 
-#social-post-button:hover {
-    background-color: #218838;
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    background-color: #28a745;
 }
 
 .quick-replies {
