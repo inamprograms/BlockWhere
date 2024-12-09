@@ -39,7 +39,19 @@
                         <option value="all">All of the Above</option>
                     </select>
                     <button id="send-button" class="btn btn-primary">Send</button>
-                    <button id="social-post-button" class="btn btn-success">Create Social Media Post</button>
+
+                    <!-- Dropdown for Social Media Posts -->
+                    <div class="dropdown">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="socialPostDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Create Social Media Post
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="socialPostDropdown">
+                            <li><a class="dropdown-item" href="#" id="facebook-post">Facebook Post</a></li>
+                            <li><a class="dropdown-item" href="#" id="linkedin-post">LinkedIn Post</a></li>
+                            <li><a class="dropdown-item" href="#" id="x-post">X (formerly Twitter) Post</a></li>
+                            <li><a class="dropdown-item" href="#" id="instagram-post">Instagram Post</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="quick-replies">
@@ -54,5 +66,6 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
