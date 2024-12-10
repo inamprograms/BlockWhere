@@ -1030,8 +1030,7 @@ Report the bug [here](https://github.com/inamprograms/BlockWhere/issues).
 [Vanessa Saunders](#) . [LinkedIn](https://www.linkedin.com/in/saundersvanessa/) |
 [Sidratul Hayat](https://github.com/sidratulhayatkhan) . [LinkedIn](https://www.linkedin.com/in/sidratul-hayat-khan-2862011b7/) |
 [Inam ul Rehman](https://github.com/inamprograms) . [LinkedIn](https://www.linkedin.com/in/inamulrehman/) |
-[Ashar Ishfaq](https://github.com/Ashar086) . [LinkedIn](https://www.linkedin.com/in/muhammad-ashar-ishfaq/) |
-[Alejandro Jacobo](#) . [LinkedIn](https://www.linkedin.com/in/alexjacobo/) 
+[Ashar Ishfaq](https://github.com/Ashar086) . [LinkedIn](https://www.linkedin.com/in/muhammad-ashar-ishfaq/) 
 
 ## Contributing
 
